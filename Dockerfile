@@ -1,7 +1,7 @@
 ##
 # We start from the basic hhvm image.
 ##
-FROM=hhvm/3.18-lts-latest
+FROM=hhvm:3.18-lts-latest
 
 # setup the root home
 ENV HOME /root
