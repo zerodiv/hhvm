@@ -1,7 +1,7 @@
 ##
 # We start from the basic hhvm image.
 ##
-FROM=hhvm:3.18-lts-latest
+FROM hhvm/hhvm:3.18-lts-latest
 
 # setup the root home
 ENV HOME /root
@@ -10,10 +10,13 @@ ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
 # bring all updates in
-apt-get update -y
+RUN apt-get update -y
 
 # install the mysql server
-apt-get install -y mysql-server
+RUN apt-get install -y mysql-server
 
 # install postgresql
-apt-get install -y postgresql postgresql-contrib
+RUN apt-get install -y postgresql postgresql-contrib
+
+# install the composer binary to /usr/local/bin
+RUN curl https://getcomposer.org/installer | hhvm --php -- /dev/stdin --install-dir=/usr/local/bin --filename=composer
