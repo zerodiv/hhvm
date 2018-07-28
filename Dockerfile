@@ -56,4 +56,4 @@ RUN echo '\d' | psql --user=zframework --host=localhost phpunit
 RUN curl https://getcomposer.org/installer | hhvm --php -- /dev/stdin --install-dir=/usr/local/bin --filename=composer
 
 # turn off the jit
-echo hhvm.jit=0 >> /etc/hhvm/php.ini
+RUN echo hhvm.jit=0 >> /etc/hhvm/php.ini
