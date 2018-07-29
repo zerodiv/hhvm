@@ -30,10 +30,6 @@ CMD curl https://getcomposer.org/installer | hhvm --php -- /dev/stdin --install-
 # turn off the jit
 CMD echo hhvm.jit=0 >> /etc/hhvm/php.ini
 
-# setup the postgres password into the .pgpass property file.
-CMD ["echo", "'localhost:5432:phpunit:zframework:i-am-a-walrus'", "> ~/.pgpass"]
-CMD ["chmod", "0600", "~/.pgpass"]
-
 # Inject a default test database for mysql
 COPY mysql_create_test_database.sql /tmp
 COPY mysql_create_test_database.sh /tmp
