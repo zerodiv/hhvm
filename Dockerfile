@@ -24,28 +24,24 @@ RUN apt-get install -y mysql-server
 # install postgresql
 RUN apt-get install -y postgresql postgresql-contrib
 
-# Bring our sql files into the image.
-COPY mysql_create_test_database.sql /tmp
-COPY postgres_create_test_database.sql /tmp
-
-# stand up mysql
-CMD ["/etc/rc.d/init.d/mysql", "start"]
-
-# run the create database
-CMD ["mysql", "< /tmp/mysql_create_test_database.sql"]
-
-# stand up postgres
-CMD ["/etc/init.d/postgresql", "start"]
-
-# run the create database
-CMD ["su", "postgres", "-c", "'psql < /tmp/postgres_create_test_database.sql'"]
-
-# setup the postgres password into the .pgpass property file.
-CMD ["echo", "'localhost:5432:phpunit:zframework:i-am-a-walrus'", "> ~/.pgpass"]
-CMD ["chmod", "0600", "~/.pgpass"]
-
 # install the composer binary to /usr/local/bin
 CMD curl https://getcomposer.org/installer | hhvm --php -- /dev/stdin --install-dir=/usr/local/bin --filename=composer
 
 # turn off the jit
 CMD echo hhvm.jit=0 >> /etc/hhvm/php.ini
+
+# setup the postgres password into the .pgpass property file.
+CMD ["echo", "'localhost:5432:phpunit:zframework:i-am-a-walrus'", "> ~/.pgpass"]
+CMD ["chmod", "0600", "~/.pgpass"]
+
+# Inject a default test database for mysql
+COPY mysql_create_test_database.sql /tmp
+COPY mysql_create_test_database.sh /tmp
+RUN chmod +x /tmp/mysql_create_test_database.sh
+CMD bash /tmp/mysql_create_test_database.sh
+
+# Inject a default test database for postgres
+COPY postgres_create_test_database.sql /tmp
+COPY postgres_create_test_database.sh /tmp
+RUN chmod +x /tmp/postgres_create_test_database.sh
+CMD bash /tmp/postgres_create_test_database.sh
