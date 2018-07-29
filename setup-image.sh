@@ -17,4 +17,4 @@ apt-get install -y postgresql postgresql-contrib && \
 curl https://getcomposer.org/installer | hhvm --php -- /dev/stdin --install-dir=/usr/local/bin --filename=composer && \
 echo hhvm.jit=0 >> /etc/hhvm/php.ini && \
 /tmp/mysql_create_test_database.sh && \
-/tmp/postgre_create_test_database.sh
+/tmp/postgres_create_test_database.sh
